@@ -1,81 +1,267 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Hub Control Dashboard</title>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-  <style>
-    body { font-family: Arial; text-align: center; margin-top: 50px; background: #f0f0f0; }
-    .device { margin: 20px; padding: 20px; border-radius: 10px; display: inline-block; width: 150px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.2);}
-    .device h2 { margin-bottom: 10px; }
-    .status { font-weight: bold; margin-bottom: 10px; }
-    button { padding: 10px 20px; font-size: 16px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IoT Hub Control Pro</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: white;
+}
+
+/* HEADER */
+.header {
+  text-align: center;
+  padding: 20px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.status-indicator {
+  margin-top: 8px;
+  font-weight: bold;
+}
+
+/* GRID */
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 15px;
+}
+
+/* CARD */
+.card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.03);
+}
+
+/* DEVICE */
+.device-name {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.status {
+  font-size: 22px;
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+.on { color: #22c55e; }
+.off { color: #ef4444; }
+
+/* SWITCH */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 30px;
+}
+
+.switch input { display: none; }
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  background: #ccc;
+  border-radius: 30px;
+  width: 100%;
+  height: 100%;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 4px;
+  bottom: 4px;
+  background: white;
+  border-radius: 50%;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background: #22c55e;
+}
+
+input:checked + .slider:before {
+  transform: translateX(30px);
+}
+
+/* SENSOR */
+.sensor-value {
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+/* FOOTER */
+.footer {
+  text-align: center;
+  margin-top: 20px;
+  opacity: 0.7;
+}
+</style>
 </head>
+
 <body>
 
-<h1>Hub Control Dashboard</h1>
-
-<div class="device">
-  <h2>Light</h2>
-  <div class="status" id="lightStatus">OFF</div>
-  <button onclick="toggleDevice('light')">Toggle</button>
+<div class="header">
+  <h1>🌐 IoT Hub Control PRO</h1>
+  <div id="online" class="status-indicator">--</div>
 </div>
 
-<div class="device">
-  <h2>Fan</h2>
-  <div class="status" id="fanStatus">OFF</div>
-  <button onclick="toggleDevice('fan')">Toggle</button>
+<div class="container">
+
+  <h2>⚙️ Control Panel</h2>
+  <div class="grid">
+
+    <!-- LIGHT -->
+    <div class="card">
+      <div class="device-name">💡 Light</div>
+      <div id="lightStatus" class="status">--</div>
+      <label class="switch">
+        <input type="checkbox" id="lightSwitch" onchange="toggleDevice('light', this.checked)">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <!-- FAN -->
+    <div class="card">
+      <div class="device-name">🌀 Fan</div>
+      <div id="fanStatus" class="status">--</div>
+      <label class="switch">
+        <input type="checkbox" id="fanSwitch" onchange="toggleDevice('fan', this.checked)">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <!-- LOCK -->
+    <div class="card">
+      <div class="device-name">🔒 Lock</div>
+      <div id="lockStatus" class="status">--</div>
+      <label class="switch">
+        <input type="checkbox" id="lockSwitch" onchange="toggleDevice('lock', this.checked)">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <!-- ALARM -->
+    <div class="card">
+      <div class="device-name">🚨 Alarm</div>
+      <div id="alarmStatus" class="status">--</div>
+      <label class="switch">
+        <input type="checkbox" id="alarmSwitch" onchange="toggleDevice('alarm', this.checked)">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+  </div>
+
+  <h2>📊 Sensor Monitoring</h2>
+  <div class="grid">
+
+    <div class="card">
+      🚪 Door
+      <div id="door" class="sensor-value">--</div>
+    </div>
+
+    <div class="card">
+      ⚡ Voltage
+      <div id="voltage" class="sensor-value">--</div>
+    </div>
+
+    <div class="card">
+      🔌 Current
+      <div id="current" class="sensor-value">--</div>
+    </div>
+
+  </div>
+
 </div>
 
-<div class="device">
-  <h2>Lock</h2>
-  <div class="status" id="lockStatus">OFF</div>
-  <button onclick="toggleDevice('lock')">Toggle</button>
+<div class="footer">
+  ESP32 + Firebase IoT System
 </div>
 
-<div class="device">
-  <h2>Alarm</h2>
-  <div class="status" id="alarmStatus">OFF</div>
-  <button onclick="toggleDevice('alarm')">Toggle</button>
-</div>
+<!-- FIREBASE -->
+<script type="module">
 
-<script>
-  // ===== FIREBASE CONFIG =====
-  const firebaseConfig = {
-    apiKey: "AIzaSyBn-EqDz2hqYn6gchSHYljjJLzCEaEED2Y",
-    authDomain: "hub-control-logic.firebaseapp.com",
-    databaseURL: "https://hub-control-logic-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "hub-control-logic",
-    storageBucket: "hub-control-logic.firebasestorage.app",
-    messagingSenderId: "459438098600",
-    appId: "1:459438098600:web:f02519b5fc3d2d3390da9d",
-    measurementId: "G-P5S7F6FREJ"
-  };
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
 
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
+// 🔥 PUT YOUR CONFIG HERE
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "hub-control-logic.firebaseapp.com",
+  databaseURL: "https://hub-control-logic-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "hub-control-logic",
+};
 
-  // ===== LISTEN TO REAL-TIME UPDATES =====
-  const devices = ['light','fan','lock','alarm'];
-  devices.forEach(dev => {
-    db.ref('hub/' + dev).on('value', snapshot => {
-      const value = snapshot.val();
-      document.getElementById(dev + 'Status').innerText = value === 1 ? 'ON' : 'OFF';
-      document.getElementById(dev + 'Status').style.color = value === 1 ? 'green' : 'red';
-    });
-  });
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const hubRef = ref(db, "hub");
 
-  // ===== TOGGLE FUNCTION =====
-  function toggleDevice(device) {
-    const ref = db.ref('hub/' + device);
-    ref.get().then(snapshot => {
-      let value = snapshot.val();
-      if (value === null) value = 0;
-      ref.set(value === 1 ? 0 : 1);
-    });
+// ===== READ =====
+onValue(hubRef, (snapshot) => {
+  const d = snapshot.val() || {};
+
+  update("light", d.light);
+  update("fan", d.fan);
+  update("lock", d.lock);
+  update("alarm", d.alarm);
+
+  document.getElementById("door").innerText = d.door ? "OPEN" : "CLOSED";
+  document.getElementById("voltage").innerText = d.voltage ?? "--";
+  document.getElementById("current").innerText = d.current ?? "--";
+
+  document.getElementById("online").innerText =
+    d.online ? "🟢 ONLINE" : "🔴 OFFLINE";
+});
+
+// ===== UPDATE UI =====
+function update(name, value) {
+  const status = document.getElementById(name + "Status");
+  const sw = document.getElementById(name + "Switch");
+
+  if (value == 1) {
+    status.innerText = "ON";
+    status.className = "status on";
+    sw.checked = true;
+  } else {
+    status.innerText = "OFF";
+    status.className = "status off";
+    sw.checked = false;
   }
+}
+
+// ===== WRITE =====
+window.toggleDevice = function(device, state) {
+  set(ref(db, "hub/" + device), state ? 1 : 0);
+};
+
 </script>
 
 </body>
