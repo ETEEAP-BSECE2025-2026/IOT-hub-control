@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>IoT Hub Control Dashboard</title>
+
   <style>
     * {
       box-sizing: border-box;
@@ -149,6 +150,20 @@
       margin-top: 8px;
     }
 
+    /* ✅ WATERMARK */
+    .watermark {
+      position: fixed;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.06);
+      text-align: center;
+      width: 100%;
+      pointer-events: none;
+      line-height: 1.5;
+    }
+
     @media (max-width: 600px) {
       .header h1 {
         font-size: 24px;
@@ -161,6 +176,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <div class="header">
@@ -171,8 +187,8 @@
 
   <div class="container">
     <div class="section-title">⚙️ Device Control</div>
-    <div class="grid">
 
+    <div class="grid">
       <div class="card">
         <div class="device-name">💡 Light</div>
         <div id="lightStatus" class="status neutral">--</div>
@@ -208,12 +224,11 @@
           <button class="btn-off" onclick="setDevice('alarm', 0)">OFF</button>
         </div>
       </div>
-
     </div>
 
     <div class="section-title">📊 Monitoring</div>
-    <div class="grid">
 
+    <div class="grid">
       <div class="card">
         <div class="sensor-label">🚪 Door Status</div>
         <div id="door" class="sensor-value">--</div>
@@ -235,12 +250,20 @@
         <div class="sensor-label">📶 WiFi RSSI</div>
         <div id="wifi" class="sensor-value">--</div>
       </div>
-
     </div>
   </div>
 
   <div class="footer">
     Developed for IoT Hub Control using GitHub Pages and Firebase
+  </div>
+
+  <!-- ✅ WATERMARK -->
+  <div class="watermark">
+    ALEJANDRINO KARLFROI&nbsp;&nbsp;BUHIA ARNEL&nbsp;&nbsp;BARRUGA EMMANUEL
+    <br>
+    CAÑEDO FEDERICO&nbsp;&nbsp;CARDONA JOSEPH&nbsp;&nbsp;CAYANONG FREDERICK
+    <br>
+    CONSTANTE JOSHUA&nbsp;&nbsp;CRUZAT RANJEE&nbsp;&nbsp;LUMACAD MICHAEL LLOYD&nbsp;&nbsp;PAYAD NORMAN
   </div>
 
   <script type="module">
@@ -254,17 +277,16 @@
       projectId: "hub-control-logic",
       storageBucket: "hub-control-logic.firebasestorage.app",
       messagingSenderId: "459438098600",
-      appId: "1:459438098600:web:f02519b5fc3d2d3390da9d",
-      measurementId: "G-P5S7F6FREJ"
+      appId: "1:459438098600:web:f02519b5fc3d2d3390da9d"
     };
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
     const hubRef = ref(db, "hub");
 
-    function updateBinaryStatus(elementId, value) {
-      const el = document.getElementById(elementId);
-      if (value == 1) {
+    function updateBinaryStatus(id, val) {
+      const el = document.getElementById(id);
+      if (val == 1) {
         el.textContent = "ON";
         el.className = "status on";
       } else {
@@ -273,32 +295,28 @@
       }
     }
 
-    function updateDoor(value) {
+    function updateDoor(val) {
       const el = document.getElementById("door");
-      el.textContent = value == 1 ? "OPEN" : "CLOSED";
-      el.className = "sensor-value " + (value == 1 ? "off" : "on");
+      el.textContent = val == 1 ? "OPEN" : "CLOSED";
+      el.className = "sensor-value " + (val == 1 ? "off" : "on");
     }
 
-    onValue(hubRef, (snapshot) => {
-      const data = snapshot.val() || {};
+    onValue(hubRef, (snap) => {
+      const d = snap.val() || {};
 
-      updateBinaryStatus("lightStatus", data.light);
-      updateBinaryStatus("fanStatus", data.fan);
-      updateBinaryStatus("lockStatus", data.lock);
-      updateBinaryStatus("alarmStatus", data.alarm);
+      updateBinaryStatus("lightStatus", d.light);
+      updateBinaryStatus("fanStatus", d.fan);
+      updateBinaryStatus("lockStatus", d.lock);
+      updateBinaryStatus("alarmStatus", d.alarm);
 
-      updateDoor(data.door);
+      updateDoor(d.door);
 
-      document.getElementById("voltage").textContent = data.voltage ?? "--";
-      document.getElementById("current").textContent = data.current ?? "--";
-      document.getElementById("wifi").textContent = data.wifi_rssi ?? "--";
+      document.getElementById("voltage").textContent = d.voltage ?? "--";
+      document.getElementById("current").textContent = d.current ?? "--";
+      document.getElementById("wifi").textContent = d.wifi_rssi ?? "--";
 
-      const onlineEl = document.getElementById("online");
-      if (data.online == 1) {
-        onlineEl.textContent = "🟢 Device Online";
-      } else {
-        onlineEl.textContent = "🔴 Device Offline";
-      }
+      document.getElementById("online").textContent =
+        d.online == 1 ? "🟢 Device Online" : "🔴 Device Offline";
     });
 
     window.setDevice = function(device, value) {
