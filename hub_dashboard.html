@@ -1,268 +1,310 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IoT Hub Control Pro</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IoT Hub Control Dashboard</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-<style>
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #0f172a, #1e293b);
-  color: white;
-}
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: white;
+    }
 
-/* HEADER */
-.header {
-  text-align: center;
-  padding: 20px;
-}
+    .header {
+      text-align: center;
+      padding: 24px 16px 10px;
+    }
 
-.header h1 {
-  margin: 0;
-  font-size: 28px;
-}
+    .header h1 {
+      margin: 0;
+      font-size: 30px;
+    }
 
-.status-indicator {
-  margin-top: 8px;
-  font-weight: bold;
-}
+    .sub {
+      margin-top: 8px;
+      font-size: 16px;
+      opacity: 0.9;
+    }
 
-/* GRID */
-.container {
-  max-width: 1100px;
-  margin: auto;
-  padding: 20px;
-}
+    .container {
+      max-width: 1150px;
+      margin: auto;
+      padding: 20px;
+    }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 15px;
-}
+    .section-title {
+      margin: 24px 0 14px;
+      font-size: 22px;
+    }
 
-/* CARD */
-.card {
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  padding: 20px;
-  text-align: center;
-  transition: 0.3s;
-}
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 16px;
+    }
 
-.card:hover {
-  transform: scale(1.03);
-}
+    .card {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+      backdrop-filter: blur(8px);
+      text-align: center;
+    }
 
-/* DEVICE */
-.device-name {
-  font-size: 18px;
-  margin-bottom: 10px;
-}
+    .device-name {
+      font-size: 18px;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
 
-.status {
-  font-size: 22px;
-  margin: 10px 0;
-  font-weight: bold;
-}
+    .status {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 12px 0;
+    }
 
-.on { color: #22c55e; }
-.off { color: #ef4444; }
+    .on {
+      color: #22c55e;
+    }
 
-/* SWITCH */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 30px;
-}
+    .off {
+      color: #ef4444;
+    }
 
-.switch input { display: none; }
+    .neutral {
+      color: #facc15;
+    }
 
-.slider {
-  position: absolute;
-  cursor: pointer;
-  background: #ccc;
-  border-radius: 30px;
-  width: 100%;
-  height: 100%;
-  transition: .4s;
-}
+    .sensor-value {
+      font-size: 24px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
 
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 22px;
-  width: 22px;
-  left: 4px;
-  bottom: 4px;
-  background: white;
-  border-radius: 50%;
-  transition: .4s;
-}
+    .sensor-label {
+      font-size: 14px;
+      opacity: 0.8;
+    }
 
-input:checked + .slider {
-  background: #22c55e;
-}
+    .online-box {
+      margin: 12px auto 0;
+      display: inline-block;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.1);
+      font-weight: bold;
+    }
 
-input:checked + .slider:before {
-  transform: translateX(30px);
-}
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
 
-/* SENSOR */
-.sensor-value {
-  font-size: 20px;
-  margin-top: 10px;
-}
+    button {
+      border: none;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
 
-/* FOOTER */
-.footer {
-  text-align: center;
-  margin-top: 20px;
-  opacity: 0.7;
-}
-</style>
+    button:hover {
+      transform: translateY(-1px);
+      opacity: 0.95;
+    }
+
+    .btn-on {
+      background: #22c55e;
+      color: #08130b;
+    }
+
+    .btn-off {
+      background: #ef4444;
+      color: white;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 22px 10px 30px;
+      opacity: 0.75;
+      font-size: 14px;
+    }
+
+    .small {
+      font-size: 13px;
+      opacity: 0.8;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 600px) {
+      .header h1 {
+        font-size: 24px;
+      }
+
+      .status,
+      .sensor-value {
+        font-size: 20px;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="header">
-  <h1>🌐 IoT Hub Control PRO</h1>
-  <div id="online" class="status-indicator">--</div>
-</div>
-
-<div class="container">
-
-  <h2>⚙️ Control Panel</h2>
-  <div class="grid">
-
-    <!-- LIGHT -->
-    <div class="card">
-      <div class="device-name">💡 Light</div>
-      <div id="lightStatus" class="status">--</div>
-      <label class="switch">
-        <input type="checkbox" id="lightSwitch" onchange="toggleDevice('light', this.checked)">
-        <span class="slider"></span>
-      </label>
-    </div>
-
-    <!-- FAN -->
-    <div class="card">
-      <div class="device-name">🌀 Fan</div>
-      <div id="fanStatus" class="status">--</div>
-      <label class="switch">
-        <input type="checkbox" id="fanSwitch" onchange="toggleDevice('fan', this.checked)">
-        <span class="slider"></span>
-      </label>
-    </div>
-
-    <!-- LOCK -->
-    <div class="card">
-      <div class="device-name">🔒 Lock</div>
-      <div id="lockStatus" class="status">--</div>
-      <label class="switch">
-        <input type="checkbox" id="lockSwitch" onchange="toggleDevice('lock', this.checked)">
-        <span class="slider"></span>
-      </label>
-    </div>
-
-    <!-- ALARM -->
-    <div class="card">
-      <div class="device-name">🚨 Alarm</div>
-      <div id="alarmStatus" class="status">--</div>
-      <label class="switch">
-        <input type="checkbox" id="alarmSwitch" onchange="toggleDevice('alarm', this.checked)">
-        <span class="slider"></span>
-      </label>
-    </div>
-
+  <div class="header">
+    <h1>🌐 IoT Hub Control Dashboard</h1>
+    <div class="sub">ESP32 + Firebase Realtime Database</div>
+    <div id="online" class="online-box">Checking status...</div>
   </div>
 
-  <h2>📊 Sensor Monitoring</h2>
-  <div class="grid">
+  <div class="container">
+    <div class="section-title">⚙️ Device Control</div>
+    <div class="grid">
 
-    <div class="card">
-      🚪 Door
-      <div id="door" class="sensor-value">--</div>
+      <div class="card">
+        <div class="device-name">💡 Light</div>
+        <div id="lightStatus" class="status neutral">--</div>
+        <div class="btn-group">
+          <button class="btn-on" onclick="setDevice('light', 1)">ON</button>
+          <button class="btn-off" onclick="setDevice('light', 0)">OFF</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="device-name">🌀 Fan</div>
+        <div id="fanStatus" class="status neutral">--</div>
+        <div class="btn-group">
+          <button class="btn-on" onclick="setDevice('fan', 1)">ON</button>
+          <button class="btn-off" onclick="setDevice('fan', 0)">OFF</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="device-name">🔒 Lock</div>
+        <div id="lockStatus" class="status neutral">--</div>
+        <div class="btn-group">
+          <button class="btn-on" onclick="setDevice('lock', 1)">ON</button>
+          <button class="btn-off" onclick="setDevice('lock', 0)">OFF</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="device-name">🚨 Alarm</div>
+        <div id="alarmStatus" class="status neutral">--</div>
+        <div class="btn-group">
+          <button class="btn-on" onclick="setDevice('alarm', 1)">ON</button>
+          <button class="btn-off" onclick="setDevice('alarm', 0)">OFF</button>
+        </div>
+      </div>
+
     </div>
 
-    <div class="card">
-      ⚡ Voltage
-      <div id="voltage" class="sensor-value">--</div>
-    </div>
+    <div class="section-title">📊 Monitoring</div>
+    <div class="grid">
 
-    <div class="card">
-      🔌 Current
-      <div id="current" class="sensor-value">--</div>
-    </div>
+      <div class="card">
+        <div class="sensor-label">🚪 Door Status</div>
+        <div id="door" class="sensor-value">--</div>
+      </div>
 
+      <div class="card">
+        <div class="sensor-label">⚡ Voltage</div>
+        <div id="voltage" class="sensor-value">--</div>
+        <div class="small">Unit depends on your sensor calibration</div>
+      </div>
+
+      <div class="card">
+        <div class="sensor-label">🔌 Current</div>
+        <div id="current" class="sensor-value">--</div>
+        <div class="small">Unit depends on your sensor calibration</div>
+      </div>
+
+      <div class="card">
+        <div class="sensor-label">📶 WiFi RSSI</div>
+        <div id="wifi" class="sensor-value">--</div>
+      </div>
+
+    </div>
   </div>
 
-</div>
+  <div class="footer">
+    Developed for IoT Hub Control using GitHub Pages and Firebase
+  </div>
 
-<div class="footer">
-  ESP32 + Firebase IoT System
-</div>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+    import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
 
-<!-- FIREBASE -->
-<script type="module">
+    const firebaseConfig = {
+      apiKey: "AIzaSyBn-EqDz2hqYn6gchSHYljjJLzCEaEED2Y",
+      authDomain: "hub-control-logic.firebaseapp.com",
+      databaseURL: "https://hub-control-logic-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "hub-control-logic",
+      storageBucket: "hub-control-logic.firebasestorage.app",
+      messagingSenderId: "459438098600",
+      appId: "1:459438098600:web:f02519b5fc3d2d3390da9d",
+      measurementId: "G-P5S7F6FREJ"
+    };
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
-import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const hubRef = ref(db, "hub");
 
-// 🔥 PUT YOUR CONFIG HERE
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "hub-control-logic.firebaseapp.com",
-  databaseURL: "https://hub-control-logic-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "hub-control-logic",
-};
+    function updateBinaryStatus(elementId, value) {
+      const el = document.getElementById(elementId);
+      if (value == 1) {
+        el.textContent = "ON";
+        el.className = "status on";
+      } else {
+        el.textContent = "OFF";
+        el.className = "status off";
+      }
+    }
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-const hubRef = ref(db, "hub");
+    function updateDoor(value) {
+      const el = document.getElementById("door");
+      el.textContent = value == 1 ? "OPEN" : "CLOSED";
+      el.className = "sensor-value " + (value == 1 ? "off" : "on");
+    }
 
-// ===== READ =====
-onValue(hubRef, (snapshot) => {
-  const d = snapshot.val() || {};
+    onValue(hubRef, (snapshot) => {
+      const data = snapshot.val() || {};
 
-  update("light", d.light);
-  update("fan", d.fan);
-  update("lock", d.lock);
-  update("alarm", d.alarm);
+      updateBinaryStatus("lightStatus", data.light);
+      updateBinaryStatus("fanStatus", data.fan);
+      updateBinaryStatus("lockStatus", data.lock);
+      updateBinaryStatus("alarmStatus", data.alarm);
 
-  document.getElementById("door").innerText = d.door ? "OPEN" : "CLOSED";
-  document.getElementById("voltage").innerText = d.voltage ?? "--";
-  document.getElementById("current").innerText = d.current ?? "--";
+      updateDoor(data.door);
 
-  document.getElementById("online").innerText =
-    d.online ? "🟢 ONLINE" : "🔴 OFFLINE";
-});
+      document.getElementById("voltage").textContent = data.voltage ?? "--";
+      document.getElementById("current").textContent = data.current ?? "--";
+      document.getElementById("wifi").textContent = data.wifi_rssi ?? "--";
 
-// ===== UPDATE UI =====
-function update(name, value) {
-  const status = document.getElementById(name + "Status");
-  const sw = document.getElementById(name + "Switch");
+      const onlineEl = document.getElementById("online");
+      if (data.online == 1) {
+        onlineEl.textContent = "🟢 Device Online";
+      } else {
+        onlineEl.textContent = "🔴 Device Offline";
+      }
+    });
 
-  if (value == 1) {
-    status.innerText = "ON";
-    status.className = "status on";
-    sw.checked = true;
-  } else {
-    status.innerText = "OFF";
-    status.className = "status off";
-    sw.checked = false;
-  }
-}
-
-// ===== WRITE =====
-window.toggleDevice = function(device, state) {
-  set(ref(db, "hub/" + device), state ? 1 : 0);
-};
-
-</script>
+    window.setDevice = function(device, value) {
+      set(ref(db, "hub/" + device), value);
+    };
+  </script>
 
 </body>
 </html>
