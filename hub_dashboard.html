@@ -2,13 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IoT Hub Control Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IOT HUB CONTROL</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -27,7 +25,7 @@
       font-size: 30px;
     }
 
-    .sub {
+    .datetime {
       margin-top: 8px;
       font-size: 16px;
       opacity: 0.9;
@@ -52,11 +50,8 @@
 
     .card {
       background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.08);
       border-radius: 16px;
       padding: 20px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
-      backdrop-filter: blur(8px);
       text-align: center;
     }
 
@@ -72,22 +67,13 @@
       margin: 12px 0;
     }
 
-    .on {
-      color: #22c55e;
-    }
-
-    .off {
-      color: #ef4444;
-    }
-
-    .neutral {
-      color: #facc15;
-    }
+    .on { color: #22c55e; }
+    .off { color: #ef4444; }
+    .neutral { color: #facc15; }
 
     .sensor-value {
       font-size: 24px;
       font-weight: bold;
-      margin-top: 10px;
     }
 
     .sensor-label {
@@ -96,20 +82,12 @@
     }
 
     .online-box {
-      margin: 12px auto 0;
-      display: inline-block;
+      margin-top: 10px;
       padding: 10px 18px;
       border-radius: 999px;
       background: rgba(255,255,255,0.1);
+      display: inline-block;
       font-weight: bold;
-    }
-
-    .btn-group {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 12px;
     }
 
     button {
@@ -118,61 +96,24 @@
       border-radius: 10px;
       font-weight: bold;
       cursor: pointer;
-      font-size: 14px;
-      transition: transform 0.15s ease, opacity 0.15s ease;
+      margin: 5px;
     }
 
-    button:hover {
-      transform: translateY(-1px);
-      opacity: 0.95;
-    }
-
-    .btn-on {
-      background: #22c55e;
-      color: #08130b;
-    }
-
-    .btn-off {
-      background: #ef4444;
-      color: white;
-    }
+    .btn-on { background: #22c55e; color: black; }
+    .btn-off { background: #ef4444; color: white; }
 
     .footer {
       text-align: center;
-      padding: 22px 10px 30px;
-      opacity: 0.75;
-      font-size: 14px;
-    }
-
-    .small {
-      font-size: 13px;
+      padding: 20px;
       opacity: 0.8;
-      margin-top: 8px;
+      font-size: 13px;
+      line-height: 1.6;
     }
 
-    /* ✅ WATERMARK */
-    .watermark {
-      position: fixed;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 11px;
-      color: rgba(255, 255, 255, 0.06);
-      text-align: center;
-      width: 100%;
-      pointer-events: none;
-      line-height: 1.5;
-    }
-
-    @media (max-width: 600px) {
-      .header h1 {
-        font-size: 24px;
-      }
-
-      .status,
-      .sensor-value {
-        font-size: 20px;
-      }
+    .names {
+      margin-top: 10px;
+      font-size: 12px;
+      opacity: 0.7;
     }
   </style>
 </head>
@@ -180,49 +121,42 @@
 <body>
 
   <div class="header">
-    <h1>🌐 IoT Hub Control Dashboard</h1>
-    <div class="sub">ESP32 + Firebase Realtime Database</div>
-    <div id="online" class="online-box">Checking status...</div>
+    <h1>🌐 IOT HUB CONTROL</h1>
+    <div id="datetime" class="datetime"></div>
+    <div id="online" class="online-box">Checking...</div>
   </div>
 
   <div class="container">
+
     <div class="section-title">⚙️ Device Control</div>
 
     <div class="grid">
       <div class="card">
         <div class="device-name">💡 Light</div>
         <div id="lightStatus" class="status neutral">--</div>
-        <div class="btn-group">
-          <button class="btn-on" onclick="setDevice('light', 1)">ON</button>
-          <button class="btn-off" onclick="setDevice('light', 0)">OFF</button>
-        </div>
+        <button class="btn-on" onclick="setDevice('light',1)">ON</button>
+        <button class="btn-off" onclick="setDevice('light',0)">OFF</button>
       </div>
 
       <div class="card">
         <div class="device-name">🌀 Fan</div>
         <div id="fanStatus" class="status neutral">--</div>
-        <div class="btn-group">
-          <button class="btn-on" onclick="setDevice('fan', 1)">ON</button>
-          <button class="btn-off" onclick="setDevice('fan', 0)">OFF</button>
-        </div>
+        <button class="btn-on" onclick="setDevice('fan',1)">ON</button>
+        <button class="btn-off" onclick="setDevice('fan',0)">OFF</button>
       </div>
 
       <div class="card">
         <div class="device-name">🔒 Lock</div>
         <div id="lockStatus" class="status neutral">--</div>
-        <div class="btn-group">
-          <button class="btn-on" onclick="setDevice('lock', 1)">ON</button>
-          <button class="btn-off" onclick="setDevice('lock', 0)">OFF</button>
-        </div>
+        <button class="btn-on" onclick="setDevice('lock',1)">ON</button>
+        <button class="btn-off" onclick="setDevice('lock',0)">OFF</button>
       </div>
 
       <div class="card">
         <div class="device-name">🚨 Alarm</div>
         <div id="alarmStatus" class="status neutral">--</div>
-        <div class="btn-group">
-          <button class="btn-on" onclick="setDevice('alarm', 1)">ON</button>
-          <button class="btn-off" onclick="setDevice('alarm', 0)">OFF</button>
-        </div>
+        <button class="btn-on" onclick="setDevice('alarm',1)">ON</button>
+        <button class="btn-off" onclick="setDevice('alarm',0)">OFF</button>
       </div>
     </div>
 
@@ -230,40 +164,37 @@
 
     <div class="grid">
       <div class="card">
-        <div class="sensor-label">🚪 Door Status</div>
+        <div class="sensor-label">🚪 Door</div>
         <div id="door" class="sensor-value">--</div>
       </div>
 
       <div class="card">
         <div class="sensor-label">⚡ Voltage</div>
         <div id="voltage" class="sensor-value">--</div>
-        <div class="small">Unit depends on your sensor calibration</div>
       </div>
 
       <div class="card">
         <div class="sensor-label">🔌 Current</div>
         <div id="current" class="sensor-value">--</div>
-        <div class="small">Unit depends on your sensor calibration</div>
       </div>
 
       <div class="card">
-        <div class="sensor-label">📶 WiFi RSSI</div>
+        <div class="sensor-label">📶 WiFi</div>
         <div id="wifi" class="sensor-value">--</div>
       </div>
     </div>
+
   </div>
 
+  <!-- ✅ FOOTER WITH NAMES -->
   <div class="footer">
-    Developed for IoT Hub Control using GitHub Pages and Firebase
-  </div>
+    IoT Hub Control System
 
-  <!-- ✅ WATERMARK -->
-  <div class="watermark">
-    ALEJANDRINO KARLFROI&nbsp;&nbsp;BUHIA ARNEL&nbsp;&nbsp;BARRUGA EMMANUEL
-    <br>
-    CAÑEDO FEDERICO&nbsp;&nbsp;CARDONA JOSEPH&nbsp;&nbsp;CAYANONG FREDERICK
-    <br>
-    CONSTANTE JOSHUA&nbsp;&nbsp;CRUZAT RANJEE&nbsp;&nbsp;LUMACAD MICHAEL LLOYD&nbsp;&nbsp;PAYAD NORMAN
+    <div class="names">
+      ALEJANDRINO KARLFROI BUHIA ARNEL BARRUGA EMMANUEL<br>
+      CAÑEDO FEDERICO CARDONA JOSEPH CAYANONG FREDERICK<br>
+      CONSTANTE JOSHUA CRUZAT RANJEE LUMACAD MICHAEL LLOYD PAYAD NORMAN
+    </div>
   </div>
 
   <script type="module">
@@ -272,42 +203,30 @@
 
     const firebaseConfig = {
       apiKey: "AIzaSyBn-EqDz2hqYn6gchSHYljjJLzCEaEED2Y",
-      authDomain: "hub-control-logic.firebaseapp.com",
-      databaseURL: "https://hub-control-logic-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "hub-control-logic",
-      storageBucket: "hub-control-logic.firebasestorage.app",
-      messagingSenderId: "459438098600",
-      appId: "1:459438098600:web:f02519b5fc3d2d3390da9d"
+      databaseURL: "https://hub-control-logic-default-rtdb.asia-southeast1.firebasedatabase.app"
     };
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
     const hubRef = ref(db, "hub");
 
-    function updateBinaryStatus(id, val) {
+    function updateBinary(id, val) {
       const el = document.getElementById(id);
-      if (val == 1) {
-        el.textContent = "ON";
-        el.className = "status on";
-      } else {
-        el.textContent = "OFF";
-        el.className = "status off";
-      }
+      el.textContent = val == 1 ? "ON" : "OFF";
+      el.className = "status " + (val == 1 ? "on" : "off");
     }
 
     function updateDoor(val) {
-      const el = document.getElementById("door");
-      el.textContent = val == 1 ? "OPEN" : "CLOSED";
-      el.className = "sensor-value " + (val == 1 ? "off" : "on");
+      document.getElementById("door").textContent = val == 1 ? "OPEN" : "CLOSED";
     }
 
     onValue(hubRef, (snap) => {
       const d = snap.val() || {};
 
-      updateBinaryStatus("lightStatus", d.light);
-      updateBinaryStatus("fanStatus", d.fan);
-      updateBinaryStatus("lockStatus", d.lock);
-      updateBinaryStatus("alarmStatus", d.alarm);
+      updateBinary("lightStatus", d.light);
+      updateBinary("fanStatus", d.fan);
+      updateBinary("lockStatus", d.lock);
+      updateBinary("alarmStatus", d.alarm);
 
       updateDoor(d.door);
 
@@ -316,12 +235,21 @@
       document.getElementById("wifi").textContent = d.wifi_rssi ?? "--";
 
       document.getElementById("online").textContent =
-        d.online == 1 ? "🟢 Device Online" : "🔴 Device Offline";
+        d.online == 1 ? "🟢 Online" : "🔴 Offline";
     });
 
     window.setDevice = function(device, value) {
       set(ref(db, "hub/" + device), value);
     };
+
+    function updateDateTime() {
+      const now = new Date();
+      document.getElementById("datetime").textContent =
+        now.toLocaleString();
+    }
+
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
   </script>
 
 </body>
