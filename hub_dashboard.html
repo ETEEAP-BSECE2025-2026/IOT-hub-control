@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hub Control</title>
+
   <style>
     * {
       box-sizing: border-box;
@@ -22,16 +23,16 @@
     }
 
     .datetime {
-      font-size: 28px;
+      font-size: 30px;
       font-weight: bold;
-      color: #e5eefc;
+      color: #4fc3f7;
       line-height: 1.4;
     }
 
     .subtime {
       font-size: 18px;
-      margin-top: 4px;
-      color: #9cc4ff;
+      margin-top: 6px;
+      color: #dbeafe;
     }
 
     .online-box {
@@ -50,9 +51,15 @@
       padding: 20px;
     }
 
-    .section-title {
-      margin: 24px 0 14px;
-      font-size: 22px;
+    .group-header {
+      background: linear-gradient(90deg, #0a1931, #1a3a6e);
+      padding: 14px 20px;
+      border-radius: 10px;
+      margin: 30px 0 15px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #38bdf8;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
 
     .grid {
@@ -138,11 +145,37 @@
     .footer {
       text-align: center;
       padding: 24px 12px 34px;
-      opacity: 0.8;
+      opacity: 0.9;
       font-size: 14px;
     }
 
-    @media (max-width: 600px) {
+    .names-box {
+      margin: 18px auto 0;
+      max-width: 900px;
+      background: linear-gradient(135deg, #0a1931, #1a3a6e);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+      text-align: center;
+    }
+
+    .names-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #38bdf8;
+      margin-bottom: 12px;
+    }
+
+    .names-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      font-size: 14px;
+      line-height: 1.8;
+      color: #e2e8f0;
+    }
+
+    @media (max-width: 700px) {
       .datetime {
         font-size: 22px;
       }
@@ -154,6 +187,14 @@
       .status,
       .sensor-value {
         font-size: 26px;
+      }
+
+      .names-list {
+        grid-template-columns: 1fr;
+      }
+
+      .group-header {
+        font-size: 20px;
       }
     }
   </style>
@@ -167,9 +208,12 @@
   </div>
 
   <div class="container">
-    <div class="section-title">⚙️ Device Control</div>
-    <div class="grid">
 
+    <div class="group-header">
+      ⚙️ Device Control
+    </div>
+
+    <div class="grid">
       <div class="card">
         <div class="device-name">💡 Light</div>
         <div id="lightStatus" class="status off">OFF</div>
@@ -205,12 +249,13 @@
           <button class="btn-off" onclick="setDevice('alarm', 0)">OFF</button>
         </div>
       </div>
-
     </div>
 
-    <div class="section-title">📊 Monitoring</div>
-    <div class="grid">
+    <div class="group-header">
+      📊 Monitoring
+    </div>
 
+    <div class="grid">
       <div class="card">
         <div class="sensor-label">🚪 Door Status</div>
         <div id="door" class="sensor-value on">CLOSED</div>
@@ -232,12 +277,26 @@
         <div class="sensor-label">📶 WiFi RSSI</div>
         <div id="wifi" class="sensor-value">--</div>
       </div>
-
     </div>
+
   </div>
 
   <div class="footer">
-    Developed for IoT Hub Control using GitHub Pages and Firebase
+    <div class="names-box">
+      <div class="names-title">👨‍💻 Project Members</div>
+      <div class="names-list">
+        <div>ALEJANDRINO KARLFROI</div>
+        <div>BUHIA ARNEL</div>
+        <div>BARRUGA EMMANUEL</div>
+        <div>CAÑEDO FEDERICO</div>
+        <div>CARDONA JOSEPH</div>
+        <div>CAYANONG FREDERICK</div>
+        <div>CONSTANTE JOSHUA</div>
+        <div>CRUZAT RANJEE</div>
+        <div>LUMACAD MICHAEL LLOYD</div>
+        <div>PAYAD NORMAN</div>
+      </div>
+    </div>
   </div>
 
   <script type="module">
