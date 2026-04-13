@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -15,7 +15,6 @@
       color: white;
     }
 
-    /* HEADER */
     .header {
       text-align: center;
       padding: 30px 16px 10px;
@@ -50,14 +49,12 @@
       font-weight: bold;
     }
 
-    /* CONTAINER */
     .container {
       max-width: 1200px;
       margin: auto;
       padding: 20px;
     }
 
-    /* GROUP HEADER */
     .group-header {
       background: linear-gradient(90deg, #0a1931, #1a3a6e);
       padding: 14px 20px;
@@ -68,14 +65,12 @@
       color: #38bdf8;
     }
 
-    /* GRID */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
     }
 
-    /* CARD */
     .card {
       background: rgba(255,255,255,0.1);
       border-radius: 16px;
@@ -101,7 +96,6 @@
       font-weight: bold;
     }
 
-    /* BUTTONS */
     button {
       border: none;
       padding: 10px 18px;
@@ -114,7 +108,6 @@
     .btn-on { background: #22c55e; color: black; }
     .btn-off { background: #ef4444; color: white; }
 
-    /* TEAM BOX */
     .names-box {
       margin: 30px auto;
       max-width: 900px;
@@ -146,7 +139,6 @@
 </head>
 
 <body>
-
   <div class="header">
     <div class="main-title">IOT HUB CONTROL</div>
     <div id="dateText" class="date-text">--</div>
@@ -244,46 +236,23 @@
     function updateBinary(id, val) {
       const el = document.getElementById(id);
       const isOn = Number(val) === 1;
-
       el.textContent = isOn ? "ON" : "OFF";
       el.className = "status " + (isOn ? "on" : "off");
     }
 
-    function updateDoorStatus(val) {
-      const doorEl = document.getElementById("door");
-
-      // If your sensor logic is reversed, swap OPEN/CLOSED below
-      if (val === 1 || val === "1") {
-        doorEl.textContent = "OPEN";
-      } else if (val === 0 || val === "0") {
-        doorEl.textContent = "CLOSED";
-      } else {
-        doorEl.textContent = "--";
-      }
-    }
-
-    function updateOnlineStatus(d) {
-      const onlineEl = document.getElementById("online");
-
-      // Simple dashboard logic:
-      // show online if Firebase value is 1
-      if (d.online === 1 || d.online === "1") {
-        onlineEl.textContent = "🟢 Device Online";
-      } else {
-        onlineEl.textContent = "🔴 Device Offline";
-      }
+    function updateDateTime() {
+      const now = new Date();
+      document.getElementById("dateText").textContent = now.toLocaleDateString();
+      document.getElementById("timeText").textContent = now.toLocaleTimeString();
     }
 
     onValue(hubRef, (snap) => {
       const d = snap.val() || {};
-      console.log("Firebase Data:", d);
 
       updateBinary("lightStatus", d.light);
       updateBinary("fanStatus", d.fan);
       updateBinary("lockStatus", d.lock);
       updateBinary("alarmStatus", d.alarm);
-
-      updateDoorStatus(d.door);
 
       document.getElementById("voltage").textContent =
         d.voltage !== undefined && d.voltage !== null ? d.voltage : "--";
@@ -294,7 +263,26 @@
       document.getElementById("wifi").textContent =
         d.wifi_rssi !== undefined && d.wifi_rssi !== null ? d.wifi_rssi : "--";
 
-      updateOnlineStatus(d);
+      // Real online/offline using last_seen
+      const nowSec = Math.floor(Date.now() / 1000);
+      const lastSeen = Number(d.last_seen || 0);
+      const isOnline = lastSeen > 100000 && (nowSec - lastSeen) <= 15;
+
+      document.getElementById("online").textContent =
+        isOnline ? "🟢 Device Online" : "🔴 Device Offline";
+
+      // Door status only valid when device is online
+      if (!isOnline) {
+        document.getElementById("door").textContent = "UNKNOWN";
+      } else {
+        // INPUT_PULLUP on ESP32:
+        // 1 = OPEN, 0 = CLOSED
+        document.getElementById("door").textContent =
+          Number(d.door) === 1 ? "OPEN" : "CLOSED";
+      }
+
+      console.log("Firebase Data:", d);
+      console.log("isOnline:", isOnline, "lastSeen:", lastSeen, "nowSec:", nowSec);
     });
 
     window.setDevice = function(device, value) {
@@ -307,13 +295,6 @@
           alert("Failed to update " + device);
         });
     };
-
-    function updateDateTime() {
-      const now = new Date();
-
-      document.getElementById("dateText").textContent = now.toLocaleDateString();
-      document.getElementById("timeText").textContent = now.toLocaleTimeString();
-    }
 
     setInterval(updateDateTime, 1000);
     updateDateTime();
