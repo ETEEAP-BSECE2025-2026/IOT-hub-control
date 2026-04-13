@@ -1,295 +1,322 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IOT HUB CONTROL</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IOT HUB CONTROL</title>
 
-<style>
-* { box-sizing: border-box; }
+  <style>
+    * { box-sizing: border-box; }
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #081226, #13233f);
-  color: white;
-}
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #081226, #13233f);
+      color: white;
+    }
 
-/* HEADER */
-.header {
-  text-align: center;
-  padding: 30px 16px 10px;
-}
+    /* HEADER */
+    .header {
+      text-align: center;
+      padding: 30px 16px 10px;
+    }
 
-.main-title {
-  font-size: 52px;
-  font-weight: 900;
-  letter-spacing: 3px;
-  color: #38bdf8;
-  text-transform: uppercase;
-  text-shadow: 0 0 12px #38bdf8;
-}
+    .main-title {
+      font-size: 52px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      color: #38bdf8;
+      text-transform: uppercase;
+      text-shadow: 0 0 12px #38bdf8;
+    }
 
-.date-text {
-  font-size: 18px;
-  margin-top: 6px;
-  color: #dbeafe;
-}
+    .date-text {
+      font-size: 18px;
+      margin-top: 6px;
+      color: #dbeafe;
+    }
 
-.time-text {
-  font-size: 20px;
-  color: #dbeafe;
-}
+    .time-text {
+      font-size: 20px;
+      color: #dbeafe;
+    }
 
-.online-box {
-  margin-top: 15px;
-  padding: 12px 24px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.1);
-  display: inline-block;
-  font-weight: bold;
-}
+    .online-box {
+      margin-top: 15px;
+      padding: 12px 24px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.1);
+      display: inline-block;
+      font-weight: bold;
+    }
 
-/* CONTAINER */
-.container {
-  max-width: 1200px;
-  margin: auto;
-  padding: 20px;
-}
+    /* CONTAINER */
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
 
-/* GROUP HEADER */
-.group-header {
-  background: linear-gradient(90deg, #0a1931, #1a3a6e);
-  padding: 14px 20px;
-  border-radius: 10px;
-  margin: 30px 0 15px;
-  font-size: 24px;
-  font-weight: bold;
-  color: #38bdf8;
-}
+    /* GROUP HEADER */
+    .group-header {
+      background: linear-gradient(90deg, #0a1931, #1a3a6e);
+      padding: 14px 20px;
+      border-radius: 10px;
+      margin: 30px 0 15px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #38bdf8;
+    }
 
-/* GRID */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-}
+    /* GRID */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
 
-/* CARD */
-.card {
-  background: rgba(255,255,255,0.1);
-  border-radius: 16px;
-  padding: 20px;
-  text-align: center;
-}
+    /* CARD */
+    .card {
+      background: rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+    }
 
-.device-name {
-  font-size: 18px;
-  font-weight: bold;
-}
+    .device-name {
+      font-size: 18px;
+      font-weight: bold;
+    }
 
-.status {
-  font-size: 30px;
-  margin: 10px 0;
-}
+    .status {
+      font-size: 30px;
+      margin: 10px 0;
+    }
 
-.on { color: #22c55e; }
-.off { color: #ef4444; }
+    .on { color: #22c55e; }
+    .off { color: #ef4444; }
 
-.sensor-value {
-  font-size: 26px;
-  font-weight: bold;
-}
+    .sensor-value {
+      font-size: 26px;
+      font-weight: bold;
+    }
 
-/* BUTTONS */
-button {
-  border: none;
-  padding: 10px 18px;
-  border-radius: 10px;
-  margin: 5px;
-  font-weight: bold;
-  cursor: pointer;
-}
+    /* BUTTONS */
+    button {
+      border: none;
+      padding: 10px 18px;
+      border-radius: 10px;
+      margin: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-.btn-on { background: #22c55e; color: black; }
-.btn-off { background: #ef4444; color: white; }
+    .btn-on { background: #22c55e; color: black; }
+    .btn-off { background: #ef4444; color: white; }
 
-/* TEAM BOX */
-.names-box {
-  margin: 30px auto;
-  max-width: 900px;
-  background: linear-gradient(135deg, #0a1931, #1a3a6e);
-  padding: 20px;
-  border-radius: 12px;
-  text-align: center;
-}
+    /* TEAM BOX */
+    .names-box {
+      margin: 30px auto;
+      max-width: 900px;
+      background: linear-gradient(135deg, #0a1931, #1a3a6e);
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+    }
 
-.names-title {
-  font-size: 18px;
-  font-weight: bold;
-  color: #38bdf8;
-  margin-bottom: 10px;
-}
+    .names-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #38bdf8;
+      margin-bottom: 10px;
+    }
 
-.names-list {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 6px;
-  font-size: 14px;
-}
+    .names-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+      font-size: 14px;
+    }
 
-/* MOBILE */
-@media (max-width: 600px) {
-  .main-title { font-size: 32px; }
-  .names-list { grid-template-columns: 1fr; }
-}
-</style>
+    @media (max-width: 600px) {
+      .main-title { font-size: 32px; }
+      .names-list { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="header">
-  <div class="main-title">IOT HUB CONTROL</div>
-  <div id="dateText" class="date-text">--</div>
-  <div id="timeText" class="time-text">--</div>
-  <div id="online" class="online-box">Checking...</div>
-</div>
+  <div class="header">
+    <div class="main-title">IOT HUB CONTROL</div>
+    <div id="dateText" class="date-text">--</div>
+    <div id="timeText" class="time-text">--</div>
+    <div id="online" class="online-box">Checking...</div>
+  </div>
 
-<div class="container">
+  <div class="container">
+    <div class="group-header">⚙️ Device Control</div>
 
-  <div class="group-header">⚙️ Device Control</div>
+    <div class="grid">
+      <div class="card">
+        <div class="device-name">💡 Light</div>
+        <div id="lightStatus" class="status off">OFF</div>
+        <button class="btn-on" onclick="setDevice('light',1)">ON</button>
+        <button class="btn-off" onclick="setDevice('light',0)">OFF</button>
+      </div>
 
-  <div class="grid">
-    <div class="card">
-      <div class="device-name">💡 Light</div>
-      <div id="lightStatus" class="status off">OFF</div>
-      <button class="btn-on" onclick="setDevice('light',1)">ON</button>
-      <button class="btn-off" onclick="setDevice('light',0)">OFF</button>
+      <div class="card">
+        <div class="device-name">🌀 Fan</div>
+        <div id="fanStatus" class="status off">OFF</div>
+        <button class="btn-on" onclick="setDevice('fan',1)">ON</button>
+        <button class="btn-off" onclick="setDevice('fan',0)">OFF</button>
+      </div>
+
+      <div class="card">
+        <div class="device-name">🔒 Lock</div>
+        <div id="lockStatus" class="status off">OFF</div>
+        <button class="btn-on" onclick="setDevice('lock',1)">ON</button>
+        <button class="btn-off" onclick="setDevice('lock',0)">OFF</button>
+      </div>
+
+      <div class="card">
+        <div class="device-name">🚨 Alarm</div>
+        <div id="alarmStatus" class="status off">OFF</div>
+        <button class="btn-on" onclick="setDevice('alarm',1)">ON</button>
+        <button class="btn-off" onclick="setDevice('alarm',0)">OFF</button>
+      </div>
     </div>
 
-    <div class="card">
-      <div class="device-name">🌀 Fan</div>
-      <div id="fanStatus" class="status off">OFF</div>
-      <button class="btn-on" onclick="setDevice('fan',1)">ON</button>
-      <button class="btn-off" onclick="setDevice('fan',0)">OFF</button>
-    </div>
+    <div class="group-header">📊 Monitoring</div>
 
-    <div class="card">
-      <div class="device-name">🔒 Lock</div>
-      <div id="lockStatus" class="status off">OFF</div>
-      <button class="btn-on" onclick="setDevice('lock',1)">ON</button>
-      <button class="btn-off" onclick="setDevice('lock',0)">OFF</button>
-    </div>
+    <div class="grid">
+      <div class="card">
+        <div>🚪 Door</div>
+        <div id="door" class="sensor-value">--</div>
+      </div>
 
-    <div class="card">
-      <div class="device-name">🚨 Alarm</div>
-      <div id="alarmStatus" class="status off">OFF</div>
-      <button class="btn-on" onclick="setDevice('alarm',1)">ON</button>
-      <button class="btn-off" onclick="setDevice('alarm',0)">OFF</button>
+      <div class="card">
+        <div>⚡ Voltage</div>
+        <div id="voltage" class="sensor-value">--</div>
+      </div>
+
+      <div class="card">
+        <div>🔌 Current</div>
+        <div id="current" class="sensor-value">--</div>
+      </div>
+
+      <div class="card">
+        <div>📶 WiFi</div>
+        <div id="wifi" class="sensor-value">--</div>
+      </div>
     </div>
   </div>
 
-  <div class="group-header">📊 Monitoring</div>
-
-  <div class="grid">
-    <div class="card">
-      <div>🚪 Door</div>
-      <div id="door" class="sensor-value">--</div>
-    </div>
-
-    <div class="card">
-      <div>⚡ Voltage</div>
-      <div id="voltage" class="sensor-value">--</div>
-    </div>
-
-    <div class="card">
-      <div>🔌 Current</div>
-      <div id="current" class="sensor-value">--</div>
-    </div>
-
-    <div class="card">
-      <div>📶 WiFi</div>
-      <div id="wifi" class="sensor-value">--</div>
+  <div class="names-box">
+    <div class="names-title">👨‍💻 Project Members</div>
+    <div class="names-list">
+      <div>ALEJANDRINO KARLFROI</div>
+      <div>BUHIA ARNEL</div>
+      <div>BARRUGA EMMANUEL</div>
+      <div>CAÑEDO FEDERICO</div>
+      <div>CARDONA JOSEPH</div>
+      <div>CAYANONG FREDERICK</div>
+      <div>CONSTANTE JOSHUA</div>
+      <div>CRUZAT RANJEE</div>
+      <div>LUMACAD MICHAEL LLOYD</div>
+      <div>PAYAD NORMAN</div>
     </div>
   </div>
 
-</div>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+    import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
 
-<!-- TEAM -->
-<div class="names-box">
-  <div class="names-title">👨‍💻 Project Members</div>
-  <div class="names-list">
-    <div>ALEJANDRINO KARLFROI</div>
-    <div>BUHIA ARNEL</div>
-    <div>BARRUGA EMMANUEL</div>
-    <div>CAÑEDO FEDERICO</div>
-    <div>CARDONA JOSEPH</div>
-    <div>CAYANONG FREDERICK</div>
-    <div>CONSTANTE JOSHUA</div>
-    <div>CRUZAT RANJEE</div>
-    <div>LUMACAD MICHAEL LLOYD</div>
-    <div>PAYAD NORMAN</div>
-  </div>
-</div>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBn-EqDz2hqYn6gchSHYljjJLzCEaEED2Y",
+      databaseURL: "https://hub-control-logic-default-rtdb.asia-southeast1.firebasedatabase.app"
+    };
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
-import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const hubRef = ref(db, "hub");
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBn-EqDz2hqYn6gchSHYljjJLzCEaEED2Y",
-  databaseURL: "https://hub-control-logic-default-rtdb.asia-southeast1.firebasedatabase.app"
-};
+    function updateBinary(id, val) {
+      const el = document.getElementById(id);
+      const isOn = Number(val) === 1;
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-const hubRef = ref(db, "hub");
+      el.textContent = isOn ? "ON" : "OFF";
+      el.className = "status " + (isOn ? "on" : "off");
+    }
 
-function updateBinary(id, val) {
-  const el = document.getElementById(id);
-  el.textContent = val == 1 ? "ON" : "OFF";
-  el.className = "status " + (val == 1 ? "on" : "off");
-}
+    function updateDoorStatus(val) {
+      const doorEl = document.getElementById("door");
 
-onValue(hubRef, (snap) => {
-  const d = snap.val() || {};
+      // If your sensor logic is reversed, swap OPEN/CLOSED below
+      if (val === 1 || val === "1") {
+        doorEl.textContent = "OPEN";
+      } else if (val === 0 || val === "0") {
+        doorEl.textContent = "CLOSED";
+      } else {
+        doorEl.textContent = "--";
+      }
+    }
 
-  updateBinary("lightStatus", d.light);
-  updateBinary("fanStatus", d.fan);
-  updateBinary("lockStatus", d.lock);
-  updateBinary("alarmStatus", d.alarm);
+    function updateOnlineStatus(d) {
+      const onlineEl = document.getElementById("online");
 
-  document.getElementById("door").textContent = d.door == 1 ? "OPEN" : "CLOSED";
-  document.getElementById("voltage").textContent = d.voltage ?? "--";
-  document.getElementById("current").textContent = d.current ?? "--";
-  document.getElementById("wifi").textContent = d.wifi_rssi ?? "--";
+      // Simple dashboard logic:
+      // show online if Firebase value is 1
+      if (d.online === 1 || d.online === "1") {
+        onlineEl.textContent = "🟢 Device Online";
+      } else {
+        onlineEl.textContent = "🔴 Device Offline";
+      }
+    }
 
-  const now = Math.floor(Date.now()/1000);
-  const last = d.last_seen || 0;
+    onValue(hubRef, (snap) => {
+      const d = snap.val() || {};
+      console.log("Firebase Data:", d);
 
-  document.getElementById("online").textContent =
-    (d.online == 1 && (now - last) <= 10)
-    ? "🟢 Device Online"
-    : "🔴 Device Offline";
-});
+      updateBinary("lightStatus", d.light);
+      updateBinary("fanStatus", d.fan);
+      updateBinary("lockStatus", d.lock);
+      updateBinary("alarmStatus", d.alarm);
 
-window.setDevice = function(device, value) {
-  set(ref(db, "hub/" + device), value);
-};
+      updateDoorStatus(d.door);
 
-function updateDateTime() {
-  const now = new Date();
+      document.getElementById("voltage").textContent =
+        d.voltage !== undefined && d.voltage !== null ? d.voltage : "--";
 
-  document.getElementById("dateText").textContent =
-    now.toLocaleDateString();
+      document.getElementById("current").textContent =
+        d.current !== undefined && d.current !== null ? d.current : "--";
 
-  document.getElementById("timeText").textContent =
-    now.toLocaleTimeString();
-}
+      document.getElementById("wifi").textContent =
+        d.wifi_rssi !== undefined && d.wifi_rssi !== null ? d.wifi_rssi : "--";
 
-setInterval(updateDateTime, 1000);
-updateDateTime();
-</script>
+      updateOnlineStatus(d);
+    });
 
+    window.setDevice = function(device, value) {
+      set(ref(db, "hub/" + device), value)
+        .then(() => {
+          console.log(device + " set to " + value);
+        })
+        .catch((error) => {
+          console.error("Error updating device:", error);
+          alert("Failed to update " + device);
+        });
+    };
+
+    function updateDateTime() {
+      const now = new Date();
+
+      document.getElementById("dateText").textContent = now.toLocaleDateString();
+      document.getElementById("timeText").textContent = now.toLocaleTimeString();
+    }
+
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
+  </script>
 </body>
 </html>
